@@ -9,7 +9,7 @@ const Index = () => {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12 relative rounded-2xl overflow-hidden">
           <div 
-            className="absolute inset-0 bg-cover bg-center"
+            className="absolute inset-0 bg-cover bg-top"
             style={{ 
               backgroundImage: 'url("/lovable-uploads/d8c011ff-5437-47ef-8770-d0c44e921bfe.png")',
               filter: 'brightness(0.9)',
