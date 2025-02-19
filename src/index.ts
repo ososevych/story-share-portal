@@ -32,6 +32,12 @@ app.post("/api/user", async (c) => {
   return c.json(newUser);
 });
 
+app.get("/api/stories", async (c) => {
+  const db = drizzle(c.env.DB);
+  const stories = await db.select().from(schema.stories);
+  return c.json({ stories });
+});
+
 app.post("/api/stories", async (c) => {
   const db = drizzle(c.env.DB);
   const { afaOffice, linkedinProfileUrl, outcome, story  } = await c.req.json();
