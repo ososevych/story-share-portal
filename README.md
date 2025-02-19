@@ -1,69 +1,100 @@
-# Welcome to your Lovable project
+## 🪿 HONC
 
-## Project info
+This is a project created with the `create-honc-app` template. 
 
-**URL**: https://lovable.dev/projects/5988d4a7-037b-4be5-bf02-4e3eb6c55920
+Learn more about the HONC stack on the [website](https://honc.dev) or the main [repo](https://github.com/fiberplane/create-honc-app).
 
-## How can I edit this code?
+### Getting started
+[D1](https://developers.cloudflare.com/d1/) is Cloudflare's serverless SQL database. Running HONC with a D1 database involves two key steps: first, setting up the project locally, and second, deploying it in production. You can spin up your D1 database locally using Wrangler. If you're planning to deploy your application for production use, ensure that you have created a D1 instance in your Cloudflare account.
 
-There are several ways of editing your application.
+### Project structure
 
-**Use Lovable**
+```#
+├── src
+│   ├── index.ts # Hono app entry point
+│   └── db
+│       └── schema.ts # Database schema
+├── .dev.vars.example # Example .dev.vars file
+├── .prod.vars.example # Example .prod.vars file
+├── seed.ts # Optional script to seed the db
+├── drizzle.config.ts # Drizzle configuration
+├── package.json
+├── tsconfig.json # TypeScript configuration
+└── wrangler.toml # Cloudflare Workers configuration
+```
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/5988d4a7-037b-4be5-bf02-4e3eb6c55920) and start prompting.
+### Commands for local development
 
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+Run the migrations and (optionally) seed the database:
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# this is a convenience script that runs db:touch, db:generate, db:migrate, and db:seed
+npm run db:setup
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Run the development server:
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```sh
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+As you iterate on the database schema, you'll need to generate a new migration file and apply it like so:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```sh
+npm run db:generate
+npm run db:migrate
+```
 
-**Use GitHub Codespaces**
+### Commands for deployment
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Before deploying your worker to Cloudflare, ensure that you have a running D1 instance on Cloudflare to connect your worker to.
 
-## What technologies are used for this project?
+You can create a D1 instance by navigating to the `Workers & Pages` section and selecting `D1 SQL Database.`
 
-This project is built with .
+Alternatively, you can create a D1 instance using the CLI:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```sh
+npx wrangler d1 create <database-name>
+```
 
-## How can I deploy this project?
+After creating the database, update the `wrangler.toml` file with the database id.
 
-Simply open [Lovable](https://lovable.dev/projects/5988d4a7-037b-4be5-bf02-4e3eb6c55920) and click on Share -> Publish.
+```toml
+[[d1_databases]]
+binding = "DB"
+database_name = "honc-d1-database"
+database_id = "<database-id-you-just-created>"
+migrations_dir = "drizzle/migrations"
+```
 
-## I want to use a custom domain - is that possible?
+Include the following information in a `.prod.vars` file:
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+```sh
+CLOUDFLARE_D1_TOKEN="" # An API token with D1 edit permissions. You can create API tokens from your Cloudflare profile
+CLOUDFLARE_ACCOUNT_ID="" # Find your Account id on the Workers & Pages overview (upper right)
+CLOUDFLARE_DATABASE_ID="" # Find the database ID under workers & pages under D1 SQL Database and by selecting the created database
+```
+
+If you haven’t generated the latest migration files yet, run:
+```shell
+npm run db:generate
+```
+
+Afterwards, run the migration script for production:
+```shell
+npm run db:migrate:prod
+```
+
+Change the name of the project in `wrangler.toml` to something appropriate for your project:
+
+```toml
+name = "my-d1-project"
+```
+
+Finally, deploy your worker
+
+```shell 
+npm run deploy
+```
+
+
