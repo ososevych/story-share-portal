@@ -11,12 +11,12 @@ import { offices } from "@/data/offices";
 import { dummyStories } from "@/data/dummy-stories";
 
 const StoriesView = () => {
-  const [selectedOffice, setSelectedOffice] = useState<string>("");
-  const [selectedOutcome, setSelectedOutcome] = useState<string>("");
+  const [selectedOffice, setSelectedOffice] = useState<string>("all_offices");
+  const [selectedOutcome, setSelectedOutcome] = useState<string>("all_outcomes");
 
   const filteredStories = dummyStories.filter((story) => {
-    if (selectedOffice && story.office.id !== selectedOffice) return false;
-    if (selectedOutcome && story.outcome !== selectedOutcome) return false;
+    if (selectedOffice !== "all_offices" && story.office.id !== selectedOffice) return false;
+    if (selectedOutcome !== "all_outcomes" && story.outcome !== selectedOutcome) return false;
     return true;
   });
 
@@ -32,7 +32,7 @@ const StoriesView = () => {
               <SelectValue placeholder="Filter by office" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All offices</SelectItem>
+              <SelectItem value="all_offices">All offices</SelectItem>
               {offices.map((office) => (
                 <SelectItem key={office.id} value={office.id}>
                   {office.name}
@@ -50,7 +50,7 @@ const StoriesView = () => {
               <SelectValue placeholder="Filter by outcome" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All outcomes</SelectItem>
+              <SelectItem value="all_outcomes">All outcomes</SelectItem>
               <SelectItem value="received">Received</SelectItem>
               <SelectItem value="not_received">Did not receive</SelectItem>
             </SelectContent>
