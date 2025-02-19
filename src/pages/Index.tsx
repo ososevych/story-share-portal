@@ -17,13 +17,13 @@ const Index = () => {
           />
           <div className="relative px-6 py-12 bg-black/30 backdrop-blur-sm">
             <div className="inline-block px-3 py-1 bg-white/90 rounded-full text-sm text-neutral-700 mb-4">
-              Bildungsgutschein Stories
+              Bildungsgooseschein Stories
             </div>
             <h1 className="text-4xl font-semibold mb-4 text-white">
-              Bildungsgutschein Community
+              Bildungsgooseschein Community
             </h1>
             <p className="text-neutral-100 max-w-2xl mx-auto">
-              Share and learn from others' experiences with Bildungsgutschein
+              Share and learn from others' experiences with Bildungsgooseschein
               applications at the Agentur für Arbeit.
             </p>
           </div>
