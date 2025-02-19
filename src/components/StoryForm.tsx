@@ -47,6 +47,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 const StoryForm = () => {
   const [charCount, setCharCount] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -57,9 +58,34 @@ const StoryForm = () => {
   });
 
   const onSubmit = async (values: FormValues) => {
-    toast.success("Story submitted successfully!");
-    console.log(values);
-    form.reset();
+    setIsSubmitting(true);
+    try {
+      const response = await fetch('http://localhost:8787/api/stories', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          afaOffice: values.office,
+          linkedinProfileUrl: values.linkedinProfile,
+          outcome: values.outcome === "received" ? "Received" : "Not received",
+          story: values.description,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit story');
+      }
+
+      toast.success("Story submitted successfully!");
+      form.reset();
+      setCharCount(0);
+    } catch (error) {
+      toast.error("Failed to submit story. Please try again.");
+      console.error('Error submitting story:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -174,8 +200,9 @@ const StoryForm = () => {
         <Button
           type="submit"
           className="w-full bg-neutral-900 hover:bg-neutral-800 text-white transition-all duration-200"
+          disabled={isSubmitting}
         >
-          Submit Story
+          {isSubmitting ? "Submitting..." : "Submit Story"}
         </Button>
       </form>
     </Form>
