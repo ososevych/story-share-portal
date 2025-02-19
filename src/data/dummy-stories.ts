@@ -5,7 +5,7 @@ export const dummyStories = [
   {
     id: 1,
     userName: "Sarah Schmidt",
-    userImage: "photo-1581091226825-a6a2a5aee158",
+    userImage: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
     linkedinProfile: "https://linkedin.com/in/sarah-schmidt",
     office: offices.find((o) => o.id === "berlin_mitte")!,
     outcome: "received",
@@ -16,7 +16,7 @@ export const dummyStories = [
   {
     id: 2,
     userName: "Michael Weber",
-    userImage: "photo-1581092795360-fd1ca04f0952",
+    userImage: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
     linkedinProfile: "https://linkedin.com/in/michael-weber",
     office: offices.find((o) => o.id === "berlin_nord")!,
     outcome: "not_received",
@@ -27,7 +27,7 @@ export const dummyStories = [
   {
     id: 3,
     userName: "Lisa Müller",
-    userImage: "photo-1485827404703-89b55fcc595e",
+    userImage: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
     linkedinProfile: "https://linkedin.com/in/lisa-mueller",
     office: offices.find((o) => o.id === "berlin_sued")!,
     outcome: "received",
@@ -38,7 +38,7 @@ export const dummyStories = [
   {
     id: 4,
     userName: "Thomas Bauer",
-    userImage: "photo-1488590528505-98d2b5aba04b",
+    userImage: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
     linkedinProfile: "https://linkedin.com/in/thomas-bauer",
     office: offices.find((o) => o.id === "berlin_tempelhof")!,
     outcome: "received",
@@ -49,7 +49,7 @@ export const dummyStories = [
   {
     id: 5,
     userName: "Anna Koch",
-    userImage: "photo-1649972904349-6e44c42644a7",
+    userImage: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
     linkedinProfile: "https://linkedin.com/in/anna-koch",
     office: offices.find((o) => o.id === "berlin_lichtenberg")!,
     outcome: "not_received",
